@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ProductCard from './ProductCard'
 import { useLocation } from 'react-router-dom';
-import axios from 'axios'
 
 
 export default function SelectedPartner() {
@@ -9,21 +8,26 @@ export default function SelectedPartner() {
     const location = useLocation()
     const id = location.state.id
     
-    const fetchPartner = () => {
-        axios.post(`http://localhost:8000/selectedPartner`, id)
-            
-            .then((res) => {
-            console.log(res,'DATA')
-
-            const info = res.data[0].products
-            setInfo(info)
+    const fetchPartner = async () => {
+       await fetch("http://localhost:8000/selectedPartner",
+        {
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({ id: id})
         })
-        .catch(err => err)
+        .then(res => res.json())
+        .then(res => setInfo(res))
+        .catch((res) => {
+            console.log(res)
+        })
+        
     }
 
-    console.log(info)
 
-
+console.log(info)
 
     useEffect(() => {
      fetchPartner()
@@ -32,7 +36,7 @@ export default function SelectedPartner() {
   return (
       <div>
           {info.map(product => {
-              return(<ProductCard  brand={product.name} description={product.description} price={product.price} />)
+              return(<ProductCard  brand={product.products[0].name} description={product.products[0].description} price={product.products[0].price} />)
           })}
           
     </div>
