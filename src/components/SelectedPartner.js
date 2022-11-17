@@ -36,7 +36,12 @@ console.log(info)
   return (
       <div>
           {info.map(product => {
-              return(<ProductCard  brand={product.products[0].name} description={product.products[0].description} price={product.products[0].price} />)
+              
+              return (<ProductCard brand={product.products[0].name}
+                  description={product.products[0].description}
+                  price={product.products[0].price}
+                  photo= {product.products[0].photo}
+              />)
           })}
           
     </div>
