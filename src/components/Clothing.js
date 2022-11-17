@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import coatPhoto from '../assets/coatPhoto.webp'
 import FeaturedPartnersCard from './FeaturedPartnersCard'
 import { useNavigate } from 'react-router-dom'
-
+import axios from 'axios'
 
 export default function ClothingProductPage() {
   const [partnersInfo, setPartnersInfo] = useState([])
-  const [id, setId] = useState('')
   const navigate = useNavigate()
 
   const fetchPartnersInfo = () => {
@@ -25,8 +24,8 @@ export default function ClothingProductPage() {
       {partnersInfo.map((partner) => {
         return (
          
-          <div className='w-fit' key={partner.id} onClick={()=> setId(partner.partnerId)}>
-            <a onClick={() =>
+          <div className='w-fit' key={partner.partnerId} >
+            <a href='/SelectedPartner' onClick={() =>
               navigate('/SelectedPartner', { state: { id: partner.partnerId } })}>
               <FeaturedPartnersCard photo={coatPhoto} brandName={partner.companyName} rating={partner.rating} id={partner.partnerId} /> 
             </a>
