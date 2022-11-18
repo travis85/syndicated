@@ -9,7 +9,12 @@ export default function PartnerUpload({
     email,
     products,
     rating,
-    type }) {
+    type,
+    address,
+    city,
+    zipCode,
+    state
+}) {
     
     const handleSubmit = async() => {
         await fetch("http://localhost:8000/uploadPartnerToFirestore",
@@ -27,15 +32,19 @@ export default function PartnerUpload({
             email,
             products,
             rating,
-            type
+            type,
+            address,
+            city,
+            zipCode,
+            state
         })
     })
     .then(res => res.json())
     }
 
   return (
-      <div>
-          <Button onClick={handleSubmit}>click </Button>
+    <div>
+        <Button onClick={handleSubmit}>Create Profile</Button>
     </div>
   )
 }
