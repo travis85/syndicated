@@ -1,62 +1,54 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import  PartnerUpload  from './PartnerUpload';
+import PartnerUpload from './PartnerUpload';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Modal from 'react-bootstrap/Modal';
 import AddProductModal from './AddProductModal';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Admin() {
-    const [show, setShow] = useState(false);
     const [companyName, setCompanyName] = useState('')
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [zipCode, setZipCode] = useState('')
     const [state, setState] = useState('')
     const [contactPerson, setContactPerson] = useState('')
-    const [partnerId, setPartnerId] = useState('')
+    const partnerId = uuidv4()
     const [phoneNumber, setPhoneNumber] = useState('')
     const [email, setEmail] = useState('')
     const [type, setType] = useState('')
     const [rating, setRating] = useState('null')
-    const [products, setProducts] = useState([
-        {
-            productName: '',
-            productPrice: '',
-            description: '',
-            photo: ''
-        }
-    ])
-    const handleAddedProduct = (productName, productPrice, description, photo) => {
+    const [companyLogo, setCompanyLogo] = useState('')
+    const [companyLogoStorageUrl, setCompanyLogoStorageUrl] = useState('')
+    const [products, setProducts] = useState([])
+    const handleAddedProduct = (productName, productPrice, description, productPhoto, productPhotoUrl) => {
         setProducts(
-             [...products,
+            [...products,
             {
                 productName: productName,
                 productPrice: productPrice,
                 description: description, 
-                photo: photo
+                productPhoto: productPhoto,
+                productPhotoUrl: productPhotoUrl
             }
-        ])
-            
-            
-
-           
+        ])            
     }
 
 
 
     const uploadImage = async (e) => {
         e.preventDefault()
-        let postId = 'new Photo'
+        let postId = `${companyName} - ${uuidv4()}`
+        setCompanyLogo(postId)
         let file = e.target.files[0]
         let blob = file.slice(0, file.size, 'image/jpeg')
-        let newfile = new File([blob], `${postId}_post.jpeg`, { type: 'image/jpeg' })
+        let newfile = new File([blob], `${postId}`, { type: 'image/jpeg' })
         let data = new FormData()
         data.append('file', newfile)
-        await axios.post(`http://localhost:8000/uploadPhoto`, data )
+        await axios.post(`http://localhost:8000/uploadPhotoLogo`, data )
             .then(res => {
+            setCompanyLogoStorageUrl(res.data)
             console.log(res.data, 'ADMIN')
             console.log(res.statusText)
         })
@@ -64,9 +56,10 @@ export default function Admin() {
    
 
   return (
-    <div className='w-[50%] grid place-content-center m-4'>
-        <>
-    <Form>
+    <div className=' grid grid-cols-2 place-content-center m-4 '>
+          <>
+        <div>
+            <Form>
         <Row className="mb-3">
             <Form.Group as={Col} controlId="companyName">
                 <Form.Label>Company Name</Form.Label>
@@ -120,30 +113,45 @@ export default function Admin() {
         </Row>
         <Form.Group className="mb-3" controlId="photo">
             <Form.Label>Logo</Form.Label>
-            <Form.Control type="file"  name='file' accept='image/*' onClick={uploadImage}/>
+            <Form.Control type="file"  name='file' accept='image/*' onChange={uploadImage}/>
         </Form.Group>
-                  <div className='grid grid-cols-2'>
-                      <div>
-                          < AddProductModal handleAddedProduct={handleAddedProduct}/> 
-                      </div>
+            <div className='grid grid-cols-2'>
+                <div>
+                    < AddProductModal handleAddedProduct={handleAddedProduct}/> 
+                </div>
             
-            <PartnerUpload
-                companyName={companyName}
-                contactPerson={contactPerson}
-                partnerId={partnerId}
-                phoneNumber={phoneNumber}
-                email={email}
-                products={products}
-                rating={rating}
-                type={type}
-                address={address}
-                city={city}
-                state={state}
-                zipCode={zipCode}
-            />
-        </div>
-        
-    </Form>
+                <PartnerUpload        
+                    companyName={companyName}
+                    companyLogo={companyLogo} 
+                    companyLogoStorageUrl={companyLogoStorageUrl}          
+                    contactPerson={contactPerson}
+                    partnerId={partnerId}
+                    phoneNumber={phoneNumber}
+                    email={email}
+                    products={products}
+                    rating={rating}
+                    type={type}
+                    address={address}
+                    city={city}
+                    state={state}
+                    zipCode={zipCode}
+                />
+            </div>
+            
+              </Form>
+              </div>
+    
+              <div className='grid place-content-center'>
+                 
+                  {products.map(product => {
+                      return (
+                    
+                          product.productName
+                      )
+                  })
+
+                  }
+              </div>
         </>
     </div>
   )
