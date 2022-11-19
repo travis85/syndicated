@@ -21,28 +21,30 @@ export default function SelectedPartner() {
         .then(res => res.json())
         .then(res => setInfo(res))
         .catch((res) => {
-            console.log(res)
+            console.log(res,)
         })
-        
     }
 
-
-console.log(info)
 
     useEffect(() => {
      fetchPartner()
     }, [])
-    
+
   return (
-      <div>
-          {info.map(product => {
-              
-              return (<ProductCard brand={product.products[0].name}
-                  description={product.products[0].description}
-                  price={product.products[0].price}
-                  photo= {product.products[0].photo}
-              />)
-          })}
+    <div>
+        {info.map(product => {
+            return (
+                product.products.map((product) =>
+                    <ProductCard
+                    brand={product.productName}
+                    description={product.description}
+                    price={product.productPrice}
+                    photo= {product.productPhotoUrl}
+                    />
+                )
+            )
+             
+        })}
           
     </div>
   )
