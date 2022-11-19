@@ -4,19 +4,40 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+
 
 export default function ({handleAddedProduct}) {
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
-        handleAddedProduct(productName, productPrice, description, photo)
-        setShow(false)
-    };
-    const handleShow = () => setShow(true);
-    const [productName, setProductName] = useState('')
-    const [productPrice, setProductPrice] = useState('')
-    const [description, setDescription] = useState('')
-    const [photo, setPhoto] = useState('')
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    handleAddedProduct(productName, productPrice, description, productPhoto, productPhotoUrl)
+    setShow(false)
+  };
+  const handleShow = () => setShow(true);
+  const [productName, setProductName] = useState('')
+  const [productPrice, setProductPrice] = useState('')
+  const [description, setDescription] = useState('')
+  const [productPhoto, setProductPhoto] = useState('')
+  const [productPhotoUrl, setProductPhotoUrl] = useState('')
+  
+  const uploadImage = async (e) => {
+    e.preventDefault()
+    let postId = `${productName} - ${uuidv4()}`
+    setProductPhoto(postId)
+    let file = e.target.files[0]
+    let blob = file.slice(0, file.size, 'image/jpeg')
+    let newfile = new File([blob], `${postId}`, { type: 'image/jpeg' })
+    let data = new FormData()
+    data.append('file', newfile)
+    await axios.post(`http://localhost:8000/uploadPhotoProduct`, data )
+    .then(res => {
+    setProductPhotoUrl(res.data)
+    console.log(res.data, 'ADMIN')
+    })
+  }
+  console.log(productPhotoUrl)
+  
 
   return (
     <>
@@ -46,12 +67,12 @@ export default function ({handleAddedProduct}) {
                 </Form.Group>
                 <Form.Group className="mb-3 " controlId="formGridFeaturedProducts">         
                     <Form.Label>Add photo</Form.Label>
-                    <Form.Control type="file" name='file' accept='image/*' onChange={()=>setPhoto('asv') } className='mb-3'/>
+                    <Form.Control type="file" name='file' accept='image/*' onChange={uploadImage} className='mb-3'/>
                 </Form.Group> 
             </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={()=>handleClose() }>
             Add Product
           </Button>
         </Modal.Footer>
