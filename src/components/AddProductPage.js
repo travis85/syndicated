@@ -18,6 +18,7 @@ export default function AddProductPage () {
   const [description, setDescription] = useState('')
   const [productPhoto, setProductPhoto] = useState('')
   const [productPhotoUrl, setProductPhotoUrl] = useState('')
+  
   const handleAddedProduct = (e) => {
     e.preventDefault();
     setProducts(
@@ -38,7 +39,7 @@ export default function AddProductPage () {
   
   const handleCreateProfile = async() => {
       navigateToLandingPage()
-    await fetch("http://localhost:8000/uploadPartnerToFirestore", {
+    await fetch("https://syndicatedserver-371000.uc.r.appspot.com/uploadPartnerToFirestore", {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -73,7 +74,7 @@ export default function AddProductPage () {
     let newfile = new File([blob], `${postId}`, { type: 'image/jpeg' })
     let data = new FormData()
     data.append('file', newfile)
-    await axios.post(`http://localhost:8000/uploadPhotoProduct`, data )
+    await axios.post(`https://syndicatedserver-371000.uc.r.appspot.com/uploadPhotoProduct`, data )
     .then(res => {
     setProductPhotoUrl(res.data)
     console.log(res.data, 'ADMIN')
@@ -113,9 +114,7 @@ export default function AddProductPage () {
           return (
             product.productName
           )
-        })
-            
-        }
+        })}
       </div>
     </div>
       

@@ -20,19 +20,19 @@ export default function AddProductModal({addProduct}) {
     }
     const handleClose =  () => { setShow(false)};
     const uploadImage = async (e) => {
-        e.preventDefault()
-        let postId = `${productName} - ${uuidv4()}`
-        setProductPhoto(postId)
-        let file = e.target.files[0]
-        let blob = file.slice(0, file.size, 'image/jpeg')
-        let newfile = new File([blob], `${postId}`, { type: 'image/jpeg' })
-        let data = new FormData()
-        data.append('file', newfile)
-        await axios.post(`http://localhost:8000/uploadPhotoProduct`, data )
-        .then(res => {
-            setProductPhotoUrl(res.data)
-            console.log(res.data, 'UploadImage')
-        })
+      e.preventDefault()
+      let postId = `${productName} - ${uuidv4()}`
+      setProductPhoto(postId)
+      let file = e.target.files[0]
+      let blob = file.slice(0, file.size, 'image/jpeg')
+      let newfile = new File([blob], `${postId}`, { type: 'image/jpeg' })
+      let data = new FormData()
+      data.append('file', newfile)
+      await axios.post(`https://syndicatedserver-371000.uc.r.appspot.com/uploadPhotoProduct`, data )
+      .then(res => {
+          setProductPhotoUrl(res.data)
+          console.log(res.data, 'UploadImage')
+      })
     }
 
 
