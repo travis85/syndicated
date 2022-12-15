@@ -45,15 +45,15 @@ function App() {
     <Header cartItems={cartItems} state={cartItems }/>
     <div className="h-screen">
       <Routes>
-        <Route exact path='/' element={<Landing cartItems={cartItems}/>} />
+        <Route exact path='/' element={<Landing />} />
         <Route exact path='/ApparelProductPage' element={<ApparelProductPage /> }/>
         <Route exact path='/SelectedPartner' element={<SelectedPartner />}/>
         <Route exact path='/PreCart' element={<PreCart cartItems={cartItems} handleCartItems={handleCartItems} />} />
-          <Route exact path='/Cart'
-            element={<Cart cartItems={cartItems}
-            handleDelete={handleDelete}
-            handleCheckOut={handleCheckOut} />}
-          />
+        <Route exact path='/Cart'
+          element={<Cart cartItems={cartItems}
+          handleDelete={handleDelete}
+          handleCheckOut={handleCheckOut} />}
+        />
         <Route exact path='/LoginPage' element={<LoginPage />} />
         <Route exact path='/RegisterPage' element={<RegisterPage />} />
         <Route exact path='/FoodProductPage' element={<FoodProductPage />} />
@@ -62,7 +62,8 @@ function App() {
         <Route exact path='/SignIn' element={<SignIn />} />
         <Route exact path='/PartnerProfilePage' element={<PartnerProfilePage />} />
         <Route exact path='/Search' element={<Search />} />
-      
+        <Route path='*' element={< Landing />} />
+
       </Routes>
     </div>
     <Footer/>
