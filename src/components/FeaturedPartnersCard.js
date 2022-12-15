@@ -10,7 +10,7 @@ export default function FeaturedPartnersCard({ photo, ratingsArray, brandName, i
       <Card style={{ width: '18rem' }} className='m-4'>
         <Card.Body className='grid justify-items-center'>
           <Image src={photo} className='h-60' />
-          <Card.Title>{brandName}</Card.Title>
+          <Card.Title className='mt-2 text-slate-400'>{brandName}</Card.Title>
           <div>
             <GetRating ratingsArray={ratingsArray}/>
           </div>
