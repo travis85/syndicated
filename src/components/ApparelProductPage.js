@@ -31,12 +31,10 @@ export default function ApparelProductPage({ cartItems }) {
         
           {
             partnersInfo.map((partner) => {
-              const ratings = partner.reviews.map((rating) => rating.rating)
-          
+            const ratings = partner.reviews.map((rating) => rating.rating)
               return (
-         
-                <div className='w-fit ' key={partner.partnerId} >
-                  <a href='' onClick={() =>
+                <div className='' key={partner.partnerId} >
+                  <a onClick={() =>
                     navigate('/SelectedPartner', { state: { id: partner.partnerId } })}>
                     <FeaturedPartnersCard photo={partner.companyLogoStorageUrl} brandName={partner.companyName} ratingsArray={ratings} id={partner.partnerId} />
                   </a>
@@ -44,10 +42,8 @@ export default function ApparelProductPage({ cartItems }) {
               )
             })
           }
-        
         </div>
       }
     </>
-         
   )
 }
