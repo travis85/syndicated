@@ -38,7 +38,7 @@ export default function AddProductPage () {
   }
   
   const handleCreateProfile = async() => {
-      navigateToLandingPage()
+    navigateToLandingPage()
     await fetch("https://syndicatedserver-371000.uc.r.appspot.com/uploadPartnerToFirestore", {
       headers: {
         'Accept': 'application/json',
@@ -62,8 +62,6 @@ export default function AddProductPage () {
         state: location.state.state
       })
     })
-
-    
   }
   const uploadImage = async (e) => {
     e.preventDefault()
@@ -83,44 +81,45 @@ export default function AddProductPage () {
  
   return (
     <>
-    <div>
-      <div>
-        <Form className='w-[50%] m-4' id='form'>
-        <Row>
-          <Form.Group as={Col} controlId="companyName">
-            <Form.Label>Product Name</Form.Label>
-            <Form.Control type="text" placeholder="Product Name" onChange={(e) => setProductName(e.target.value)}   />
+    <div className='grid place-content-center m-4'>
+      <div className='border-solid border-2 p-6 rounded-md shadow-xl'>
+        <Form className='' id='form'>
+          <Row>
+            <Form.Group as={Col} controlId="companyName">
+              <Form.Label>Product Name</Form.Label>
+              <Form.Control type="text" placeholder="Product Name" onChange={(e) => setProductName(e.target.value)}   />
+            </Form.Group>
+            <Form.Group as={Col} controlId="companyName" className='mb-3'>
+              <Form.Label>Product Price</Form.Label>
+              <Form.Control type="text" placeholder="Product Price" onChange={(e)=> setProductPrice(e.target.value) }/>
+            </Form.Group>
+          </Row>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Label>Description</Form.Label>
+            <Form.Control as="textarea" rows={3} onChange={(e)=> setDescription(e.target.value) }/>
           </Form.Group>
-          <Form.Group as={Col} controlId="companyName" className='mb-3'>
-            <Form.Label>Product Price</Form.Label>
-            <Form.Control type="text" placeholder="Product Price" onChange={(e)=> setProductPrice(e.target.value) }/>
-          </Form.Group>
-        </Row>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={3} onChange={(e)=> setDescription(e.target.value) }/>
-        </Form.Group>
-        <Form.Group className="mb-3 " controlId="formGridFeaturedProducts">         
-          <Form.Label>Add photo</Form.Label>
-          <Form.Control type="file" name='file' accept='image/*' onChange={uploadImage} className='mb-3'/>
-        </Form.Group> 
-        <Button onClick={handleAddedProduct}>Add product</Button>
-        <Button onClick={handleCreateProfile}>Create Profile</Button>
+          <Form.Group className="mb-3 " controlId="formGridFeaturedProducts">         
+            <Form.Label>Add photo</Form.Label>
+            <Form.Control type="file" name='file' accept='image/*' onChange={uploadImage} className='mb-3'/>
+          </Form.Group> 
+          <Button onClick={handleAddedProduct} className='mr-2'>Add Product</Button>
+          <Button onClick={handleCreateProfile}>Create Profile</Button>
 
         </Form>
-      </div>
-      <div>
-        {products.map((product) => {
-          return (
-            product.productName
-          )
-        })}
-      </div>
-    </div>
-      
+        </div>
+        {products.length > 0 &&
+          <div>
+            <p>Your added products</p>
+            {products.map((product) => {
+              return (
+                product.productName
+              )
+            })}
+          </div>
+        }
+    </div> 
     </>
   );
-
 }
 
 
